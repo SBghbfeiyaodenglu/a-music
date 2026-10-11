@@ -1,0 +1,40 @@
+# ---- Android / Gradle ----
+*.iml
+.gradle/
+.kotlin/
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+local.properties
+
+# ---- IDE ----
+.idea/
+*.hprof
+
+# ---- 签名材料：绝不入库 ----
+keystore.properties
+*.jks
+*.keystore
+
+# ---- 临时/调研产物（.tmp* 同时覆盖文件与目录：.tmp/、.tmp_lrclib.json 等）----
+.tmp*
+sg.html
+so.html
+
+# ---- 构建产物与日志 ----
+apk/
+build-latest.log
+
+# ---- Python 工具脚本的缓存 ----
+__pycache__/
+*.pyc
+
+# ---- 系统 ----
+.DS_Store
+Thumbs.db
+
+# 用户自己的歌词库（不是项目源码；将来开源时也不该把别人的歌词一起发出去）
+LRC歌词文件/
+

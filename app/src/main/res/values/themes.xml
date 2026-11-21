@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--
+      只依赖平台主题，不引入 appcompat / material-components：
+      界面全部由 Compose 绘制，XML 主题只负责窗口底色和去掉标题栏。
+    -->
+    <style name="Theme.AMusic" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/app_background</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
+</resources>

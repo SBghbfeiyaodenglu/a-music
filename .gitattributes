@@ -1,0 +1,12 @@
+# 统一换行：仓库里一律 LF，避免 Windows 上产生整文件级 diff
+* text=auto eol=lf
+*.bat text eol=crlf
+*.cmd text eol=crlf
+
+# 二进制文件不做换行转换
+*.jar binary
+*.png binary
+*.jpg binary
+*.webp binary
+*.jks binary
+*.keystore binary

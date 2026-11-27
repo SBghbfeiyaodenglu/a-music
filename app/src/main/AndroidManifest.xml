@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+
+    <!-- 读取本地音频。13+ 用 READ_MEDIA_AUDIO，12 及以下用 READ_EXTERNAL_STORAGE -->
+    <!-- 在线搜索歌词：这是应用唯一联网的地方，只在你主动点「在线搜词」时才联网 -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />
+    <uses-permission
+        android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="32" />
+
+    <!--
+      所有文件访问权限（侧载自用方案）。
+      用途：读取音频文件旁边的同名 .lrc 歌词。
+      分区存储下 .lrc 属于非媒体文件，用路径读不到、MediaStore 也读不到内容，
+      所以"同名 LRC 优先"这条核心规则必须靠它兜住。
+      注意：这个权限不能上 Google Play，本项目是侧载自用。
+    -->
+    <uses-permission
+        android:name="android.permission.MANAGE_EXTERNAL_STORAGE"
+        tools:ignore="ScopedStorage" />
+
+    <!-- 媒体通知与锁屏控制（后台播放用，13+ 需要运行时申请） -->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MEDIA_PLAYBACK" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AMusic">
+
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:launchMode="singleTask"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden|uiMode|density|fontScale|layoutDirection"
+            android:theme="@style/Theme.AMusic"
+            android:windowSoftInputMode="adjustResize">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!--
+          后台播放服务。由 Media3 的 MediaSessionService 托管播放器和媒体会话，
+          通知栏控制、锁屏控制、蓝牙按键都由它统一处理，退出应用和锁屏后继续播放。
+          exported="true" 是 Media3 的要求（要能被系统媒体组件绑定），不是权限疏漏，
+          lint 的 ExportedService 警告可以忽略。
+        -->
+        <service
+            android:name=".playback.PlaybackService"
+            android:exported="true"
+            android:foregroundServiceType="mediaPlayback"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action android:name="androidx.media3.session.MediaSessionService" />
+            </intent-filter>
+        </service>
+    </application>
+
+</manifest>
